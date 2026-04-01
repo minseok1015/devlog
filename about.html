@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — devlog</title>
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  .about-wrap { padding: 72px 0 80px; }
+  .about-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--text-dim); letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  .about-wrap h1 {
+    font-family: 'Noto Serif KR', serif; font-size: 36px;
+    font-weight: 900; margin-bottom: 16px; letter-spacing: -0.02em;
+  }
+  .about-wrap h1 span { color: var(--accent); }
+  .about-wrap p { color: var(--text-muted); font-size: 15px; max-width: 540px; }
+  .stack-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 48px; }
+  .stag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">$ devlog</a>
+  <div class="nav-links">
+    <a href="index.html">Posts</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/minseok1015" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="about-wrap">
+    <div class="about-label">About</div>
+    <h1>안녕하세요,<br><span>백엔드 개발자</span>입니다</h1>
+    <p>개발하면서 마주친 문제들과 그 해결 과정을 기록합니다. 주로 Spring Boot, MySQL, Elasticsearch를 다룹니다.</p>
+    <div class="stack-grid">
+      <span class="stag t-be">Spring Boot</span>
+      <span class="stag t-be">Java</span>
+      <span class="stag t-inf">Elasticsearch</span>
+      <span class="stag t-inf">Docker</span>
+      <span class="stag t-cs">MySQL</span>
+      <span class="stag t-log">Redis</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 devlog · Built with HTML/CSS · Hosted on GitHub Pages
+</footer>
+
+</body>
+</html>

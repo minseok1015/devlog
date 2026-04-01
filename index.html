@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>devlog</title>
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+.blog-body {
+  display: grid;
+  grid-template-columns: 196px 1fr;
+  min-height: calc(100vh - 52px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+}
+.sb-sec { padding: 0 16px; margin-bottom: 28px; }
+.sb-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+  padding: 0 6px;
+}
+.sb-div { height: 1px; background: var(--border); margin: 0 16px 24px; }
+.cat {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 8px; border-radius: 6px; font-size: 13px;
+  color: var(--text-muted); cursor: pointer; margin-bottom: 2px;
+  text-decoration: none;
+}
+.cat.on { background: #eeeafd; color: var(--accent); font-weight: 500; }
+.cat:hover:not(.on) { background: var(--surface2); color: var(--text); }
+.cat-l { display: flex; align-items: center; gap: 8px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.cnt {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--text-dim); background: var(--surface2);
+  padding: 1px 6px; border-radius: 99px;
+}
+.cat.on .cnt { background: #d8d2fb; color: var(--accent); }
+.tag-pill {
+  display: inline-block; font-size: 11px; padding: 3px 9px;
+  background: var(--surface2); border-radius: 99px;
+  color: var(--text-muted); margin: 3px 2px;
+}
+
+/* MAIN */
+.main { padding: 28px 32px; }
+.sec-head {
+  display: flex; align-items: center; gap: 7px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 16px;
+}
+.pin-ico {
+  width: 10px; height: 10px; background: var(--text-dim);
+  clip-path: polygon(50% 0%,75% 25%,62% 25%,62% 65%,75% 100%,50% 82%,25% 100%,38% 65%,38% 25%,25% 25%);
+}
+
+/* PIN CARDS */
+.pin-card {
+  display: grid; grid-template-columns: 160px 1fr;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  margin-bottom: 12px; height: 110px;
+  text-decoration: none; color: inherit;
+}
+.pin-card:hover { border-color: #c4bef9; box-shadow: 0 2px 12px rgba(91,78,240,0.07); }
+.pin-thumb { width: 160px; height: 110px; flex-shrink: 0; overflow: hidden; }
+.pin-thumb-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.pin-info { padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+.pin-top { flex: 1; min-width: 0; }
+.pin-title {
+  font-family: 'Noto Serif KR', serif; font-size: 14px; font-weight: 700;
+  color: var(--text); line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.pin-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); display: flex; gap: 12px; margin-top: 10px; }
+
+/* RECENT */
+.recent {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 0; border-bottom: 1px solid var(--border);
+  cursor: pointer; gap: 14px; text-decoration: none; color: inherit;
+}
+.recent:last-child { border-bottom: none; }
+.recent:hover .rt { color: var(--accent); }
+.rl { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.rt { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.15s; }
+.rm { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); white-space: nowrap; flex-shrink: 0; }
+
+.ctag {
+  display: inline-block; font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 2px 8px; border-radius: 3px; margin-bottom: 8px;
+}
+.t-be  { background: #e8f1fc; color: #185fa5; border: 1px solid #c5d9f5; }
+.t-inf { background: #eaf4e2; color: #3b6d11; border: 1px solid #c4dca8; }
+.t-cs  { background: #eeeafd; color: #4a3db5; border: 1px solid #cec7f8; }
+.t-log { background: #fdf0e4; color: #944d10; border: 1px solid #f5d0a8; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">$ devlog</a>
+  <div class="nav-links">
+    <a href="index.html">Posts</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/minseok1015" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="blog-body">
+  <aside class="sidebar">
+    <div class="sb-sec">
+      <div class="sb-label">카테고리</div>
+      <a href="index.html" class="cat on">
+        <div class="cat-l"><div class="dot" style="background:var(--accent)"></div>전체</div>
+        <span class="cnt">4</span>
+      </a>
+      <a href="#" class="cat">
+        <div class="cat-l"><div class="dot" style="background:#185fa5"></div>백엔드</div>
+        <span class="cnt">2</span>
+      </a>
+      <a href="#" class="cat">
+        <div class="cat-l"><div class="dot" style="background:#3b6d11"></div>인프라</div>
+        <span class="cnt">1</span>
+      </a>
+      <a href="#" class="cat">
+        <div class="cat-l"><div class="dot" style="background:#4a3db5"></div>CS 지식</div>
+        <span class="cnt">0</span>
+      </a>
+      <a href="#" class="cat">
+        <div class="cat-l"><div class="dot" style="background:#944d10"></div>회고 / 일상</div>
+        <span class="cnt">1</span>
+      </a>
+    </div>
+
+    <div class="sb-div"></div>
+
+    <div class="sb-sec">
+      <div class="sb-label">태그</div>
+      <div style="padding:0 2px;">
+        <span class="tag-pill">Elasticsearch</span>
+        <span class="tag-pill">MySQL</span>
+        <span class="tag-pill">Spring Boot</span>
+        <span class="tag-pill">JPA</span>
+        <span class="tag-pill">Docker</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="sec-head"><div class="pin-ico"></div>핀 글</div>
+
+    <!-- 핀 글 1 -->
+    <a class="pin-card" href="posts/elasticsearch.html">
+      <div class="pin-thumb">
+        <div class="pin-thumb-fallback" style="background:linear-gradient(135deg,#e8f1fc,#d0e4f9);">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="4" y="8" width="28" height="4" rx="2" fill="#185fa5" opacity="0.5"/>
+            <rect x="4" y="16" width="20" height="3" rx="1.5" fill="#c5d9f5"/>
+            <rect x="4" y="22" width="24" height="3" rx="1.5" fill="#c5d9f5"/>
+            <rect x="4" y="28" width="16" height="3" rx="1.5" fill="#c5d9f5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="pin-info">
+        <div class="pin-top">
+          <span class="ctag t-be">백엔드</span>
+          <div class="pin-title">MySQL FullText에서 Elasticsearch로 — 키워드 검색 개선기</div>
+        </div>
+        <div class="pin-meta"><span>2026.03.26</span><span>10 min read</span></div>
+      </div>
+    </a>
+
+    <!-- 핀 글 2 -->
+    <a class="pin-card" href="posts/spring-boot에서-jpa-n-1-문제-해결하기.html">
+      <div class="pin-thumb">
+        <div class="pin-thumb-fallback" style="background:linear-gradient(135deg,#eeeafd,#ddd7fb);">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <circle cx="18" cy="15" r="8" stroke="#4a3db5" stroke-width="1.5" opacity="0.5"/>
+            <rect x="10" y="26" width="16" height="1.5" rx="0.75" fill="#4a3db5" opacity="0.3"/>
+            <rect x="13" y="29" width="10" height="1.5" rx="0.75" fill="#cec7f8"/>
+          </svg>
+        </div>
+      </div>
+      <div class="pin-info">
+        <div class="pin-top">
+          <span class="ctag t-be">백엔드</span>
+          <div class="pin-title">Spring Boot에서 JPA N+1 문제 해결하기</div>
+        </div>
+        <div class="pin-meta"><span>2026.03.29</span><span>8 min read</span></div>
+      </div>
+    </a>
+
+    <div style="margin-top:32px;">
+      <div class="sec-head">최근 글</div>
+      <a class="recent" href="posts/elasticsearch.html">
+        <div class="rl"><span class="ctag t-be" style="margin:0;flex-shrink:0;">백엔드</span><span class="rt">MySQL FullText에서 Elasticsearch로 — 키워드 검색 개선기</span></div>
+        <span class="rm">2026.03.26</span>
+      </a>
+      <a class="recent" href="posts/spring-boot에서-jpa-n-1-문제-해결하기.html">
+        <div class="rl"><span class="ctag t-be" style="margin:0;flex-shrink:0;">백엔드</span><span class="rt">Spring Boot에서 JPA N+1 문제 해결하기</span></div>
+        <span class="rm">2026.03.29</span>
+      </a>
+    </div>
+  </main>
+</div>
+
+<footer>
+  © 2026 devlog · Built with HTML/CSS · Hosted on GitHub Pages
+</footer>
+
+</body>
+</html>
